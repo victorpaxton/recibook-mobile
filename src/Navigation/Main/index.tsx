@@ -1,6 +1,6 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HomeContainer } from "@/Screens/Home";
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { HomeContainer } from '@/Screens/Home';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,8 +12,8 @@ export const MainNavigator = () => {
         name="Home"
         component={HomeContainer}
         options={{
-          tabBarIconStyle: { display: "none" },
-          tabBarLabelPosition: "beside-icon",
+          tabBarIconStyle: { display: 'none' },
+          tabBarLabelPosition: 'beside-icon',
         }}
       />
     </Tab.Navigator>
