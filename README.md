@@ -1,3 +1,7 @@
+# Recibook Application
+
+A mobile application recommends recipes from recognizing your ingredients.
+
 # React Native Expo Redux Template
 
 [![Build Expo OTA](https://github.com/hpccbk/react-native-expo-redux-template/actions/workflows/update.yml/badge.svg)](https://github.com/hpccbk/react-native-expo-redux-template/actions/workflows/update.yml)
@@ -47,11 +51,9 @@ The template's file structure is organized as follows:
 ```js
 ApiV2Error: Not Authorized.
 ```
-Reason and how to remove this issue: https://github.com/expo/expo-cli/issues/2436#issuecomment-1308534521
 
+Reason and how to remove this issue: https://github.com/expo/expo-cli/issues/2436#issuecomment-1308534521
 
 ## Contributing
 
 If you have suggestions for how this template could be improved, or want to report a bug, please open an issue or a pull request. We welcome contributions from the community!
-
-
