@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from '../Screens/HomeScreen.js';
+
+import AuthNavigator  from './authNavigation';
 import OnboardingScreen from '../Screens/OnboardingScreen.js';
+import MainNavigator from './MainNavigation.js';
 import { getItem } from '@/Utils/asyncStorage.js';
 
 const Stack = createNativeStackNavigator();
@@ -27,40 +29,36 @@ export default function AppNavigation() {
   if (showOnboarding == null) {
     return null;
   }
-
-  if (showOnboarding) {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Onboarding">
+        <Stack.Navigator initialRouteName={showOnboarding ?"Onboarding" : "Login"}>
           <Stack.Screen
             name="Onboarding"
             options={{ headerShown: false }}
             component={OnboardingScreen}
           />
           <Stack.Screen
-            name="Home"
+            name="Auth"
             options={{ headerShown: false }}
-            component={HomeScreen}
+            component={AuthNavigator}
           />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  } else {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
-            name="Onboarding"
+            name="Main"
             options={{ headerShown: false }}
-            component={OnboardingScreen}
+            component={MainNavigator}
+          />
+          {/* <Stack.Screen
+            name="SignUp"
+            options={{ headerShown: false }}
+            component={SignUpScreen}
           />
           <Stack.Screen
             name="Home"
             options={{ headerShown: false }}
             component={HomeScreen}
-          />
+          /> */}
         </Stack.Navigator>
+        {/* <MainNavigation></MainNavigation> */}
       </NavigationContainer>
     );
-  }
 }

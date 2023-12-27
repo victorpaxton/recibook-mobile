@@ -17,7 +17,7 @@ export default function OnboardingScreen() {
   const navigation = useNavigation();
 
   const handleDone = () => {
-    navigation.navigate('Home');
+    navigation.navigate('Auth');
     setItem('onboarded', '1');
   };
 
@@ -144,15 +144,13 @@ const styles = StyleSheet.create({
     height: width * 0.7,
   },
   doneButton: {
-    marginHorizontal: 36,
+    marginRight: 0.1* width,
     backgroundColor: '#651D43',
     borderRadius: 50,
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
     textAlign: 'center',
-    width: 306,
+    width: 0.8 * width,
     height: 49,
   },
   skipButton: {

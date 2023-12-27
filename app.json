@@ -33,14 +33,9 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [],
-    "extra": {
-      "eas": {
-        "projectId": "3e90888b-bb96-4a53-b6ba-2a416cbcfc87"
-      }
-    },
+
     "runtimeVersion": {
       "policy": "sdkVersion"
-    },
-    "owner": "thang.huynhcsk20"
+    }
   }
 }
