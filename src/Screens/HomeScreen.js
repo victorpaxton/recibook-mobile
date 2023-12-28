@@ -2,23 +2,41 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
   Animated,
-  FlatList
+  FlatList,
+  Image
 } from 'react-native';
-import React, {useLayoutEffect, useState, useRef} from 'react';
+import React, { useLayoutEffect, useState, useRef } from "react";
+import {AntDesign} from '@expo/vector-icons'
+
 import DynamicHeader from '../Components/AnimatedHeader';
-import Lottie from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { removeItem } from '@/Utils/asyncStorage';
 import { DATA } from '../Utils/data';
+import { SvgXml } from 'react-native-svg';
+import { clock } from '@/Assets/Icons/Clock';
 
 
-const { width, height } = Dimensions.get('window');
+const HeartButton = () => {
+  const [liked, setLiked] = useState(false);
 
+  const handlePress = () => {
+    setLiked(!liked);
+  };
+
+  return (
+      <AntDesign onPress={handlePress}
+        style={styles.heartIcon}
+        name={liked ? 'heart' : 'hearto'}
+        size={20}
+        color={liked ? '#E00034' : '#70001A'}
+        borderColor="#70001A"
+      />
+  );
+};
 export default function HomeScreen() {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -27,10 +45,9 @@ export default function HomeScreen() {
     });
   }, []);
   const scrollOffsetY = useRef(new Animated.Value(0)).current;
-  const handleReset = async () => {
-    await removeItem('onboarded');
-    navigation.push('Onboarding');
-  };
+
+  const [liked, setLiked] = useState(false)
+
   return (
     <SafeAreaView style={styles.container}>
       <DynamicHeader animHeaderValue={scrollOffsetY} />
@@ -54,17 +71,26 @@ export default function HomeScreen() {
       </ScrollView> */}
       <FlatList
         onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollOffsetY}}}],
-          {useNativeDriver: false}
+          [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
+          { useNativeDriver: false }
         )}
         data={DATA}
-        
+
         renderItem={({ index, item }) => (
-          <View style={[styles.itemContainer, {marginRight: index % 2 !== 0 ? 0 : "4%"}]}>
-            <Text style={styles.scrollText} key={item.id}>{item.title}</Text>
-          </View>
+          <TouchableOpacity style={[styles.itemContainer, { marginRight: index % 2 !== 0 ? 0 : "4%" }]} key={item.id}>
+            <Image style={styles.recipeImage} source={item.imgPath} />
+            <View style={styles.recipeDetail}>
+              <View style={styles.cookingTime}>
+                <SvgXml xml={clock}/>
+                <Text style={styles.cookingTimeText}>{item.cookingTime} mins</Text>
+              </View>
+              <Text style={styles.recipeName}>{item.recipeName}</Text>
+              <Text style={styles.categoryText}>Category: {item.category}</Text>
+            </View>
+            <HeartButton/>
+          </TouchableOpacity>
         )}
-        ItemSeparatorComponent={() => <View style={{width: 10}} />}
+        ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
         numColumns={2}
         keyExtractor={(item, index) => index}
         style={styles.mainView}
@@ -76,22 +102,47 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  scrollText: {
-    height: 40,
-  },
-  resetButton: {
-    backgroundColor: '#34d399',
-    padding: 10,
-    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
   },
   mainView: {
-    padding : 16,
+    padding: 16,
+    paddingBottom: 32
   },
   itemContainer: {
-    backgroundColor: "white",
-    height: 162,
+    height: 190,
     width: "48%",
     marginBottom: 8,
+  },
+  recipeImage: {
+    width: "100%",
+    borderRadius: 12
+  },
+  recipeDetail: {
+    padding: 8,
+  },
+  cookingTime: {
+    flexDirection: "row",
+    alignContent: "center",
+    height: 10,
+    marginBottom: 3,
+  },
+  cookingTimeText: {
+    marginLeft: 4,
+    fontSize: 10,
+    color: "#262626",
+  },
+  recipeName: {
+    fontSize: 12,
+    color: "#E00034",
+    marginBottom: 3,
+  },
+  categoryText: {
+    fontSize: 10,
+    color: "#262626",
+  },
+  heartIcon: {
+    position: "absolute",
+    top: 10,
+    right: 10,
   }
 });
