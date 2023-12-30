@@ -107,6 +107,9 @@ const MainNavigator = () => {
                     tabBarButton: (props) => (
                         <CustomTabBarButton {...props} />
                     ),
+                    tabBarStyle: {
+                        display: 'none' 
+                    }
                 }} />
             <Tab.Screen name="Wishlist" component={HomeScreen} />
             <Tab.Screen name="Profile" component={HomeScreen} />
