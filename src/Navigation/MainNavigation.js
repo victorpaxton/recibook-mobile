@@ -10,6 +10,7 @@ import { Wishlist, WishlistFilled } from '../Assets/Icons/square-heart.js';
 import { profile } from '../Assets/Icons/circle-user.js';
 import { CameraIcon } from '../Assets/Icons/camera.js';
 import HomeScreen from '../Screens/HomeScreen'
+import CameraScreen from '../Screens/CameraScreen.js';
 // import LogScreen from './LogScreen';
 // import DeviceScreen from './DeviceScreen';
 // import SettingScreen from './SettingScreen';
@@ -99,7 +100,7 @@ const MainNavigator = () => {
             })}>
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Search" component={HomeScreen} />
-            <Tab.Screen name="Cameras" component={HomeScreen}
+            <Tab.Screen name="Cameras" component={CameraScreen}
                 styles={styles.cameraBtn}
                 options={{
                     tabBarLabel: () => null,
