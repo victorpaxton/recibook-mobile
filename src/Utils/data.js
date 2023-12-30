@@ -1,6 +1,6 @@
 export const DATA = [];
 
-for (let i = 1; i <= 48; i++) {
+for (let i = 1; i <= 47; i++) {
   DATA.push({
     id: i,
     recipeName: `Chili Mac Soup`,

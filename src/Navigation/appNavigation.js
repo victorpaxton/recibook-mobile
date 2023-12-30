@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import AuthNavigator  from './authNavigation';
 import OnboardingScreen from '../Screens/OnboardingScreen.js';
+import SearchScreen2 from '@/Screens/SearchScreen2';
 import MainNavigator from './MainNavigation.js';
 import { getItem } from '@/Utils/asyncStorage.js';
 
@@ -47,12 +48,12 @@ export default function AppNavigation() {
             options={{ headerShown: false }}
             component={MainNavigator}
           />
-          {/* <Stack.Screen
-            name="SignUp"
-            options={{ headerShown: false }}
-            component={SignUpScreen}
-          />
           <Stack.Screen
+            name="Search2"
+            options={{ headerShown: false }}
+            component={SearchScreen2}
+          />
+          {/* <Stack.Screen
             name="Home"
             options={{ headerShown: false }}
             component={HomeScreen}
