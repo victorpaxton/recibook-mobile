@@ -11,10 +11,7 @@ import { profile } from '../Assets/Icons/circle-user.js';
 import { CameraIcon } from '../Assets/Icons/camera.js';
 import HomeScreen from '../Screens/HomeScreen'
 import CameraScreen from '../Screens/CameraScreen.js';
-import SearchScreen from '../Screens/SearchScreen'
-// import LogScreen from './LogScreen';
-// import DeviceScreen from './DeviceScreen';
-// import SettingScreen from './SettingScreen';
+import SearchScreen from '../Screens/SearchScreen';
 
 const CustomTabBarButton = ({ children, onPress }) => (
     <TouchableOpacity
