@@ -16,14 +16,17 @@ export default function SearchScreen() {
             headerShown: false,
         });
     }, []);
+    const handleSummit = () => {
+        navigation.navigate("Search2");
+    }
     return (
-        <KeyboardAwareScrollView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.scrollViewContent}>
                 <View style={styles.headerContainer}><Text style={styles.headerText}>Search</Text></View>
-                <SearchBar />
+                <SearchBar handleSummit={handleSummit}/>
             </View>
 
-        </KeyboardAwareScrollView>
+        </SafeAreaView>
 
     );
 }
