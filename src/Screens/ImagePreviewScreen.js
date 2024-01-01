@@ -3,20 +3,18 @@ import {
     Text,
     StyleSheet,
     SafeAreaView,
-    FlatList,
     Image,
     TouchableOpacity,
-    Dimensions
 } from 'react-native';
 import React, { useLayoutEffect, useState } from "react";
-import { useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { SvgXml } from 'react-native-svg';
-import { captureImage} from '@/Assets/Icons/captureImage';
+import { captureImage } from '@/Assets/Icons/captureImage';
 import { list, verylarger } from '@/Assets/Icons/list';
 import { arrow_left_pink } from '@/Assets/Icons/arrow-left';
 import { edit } from '@/Assets/Icons/edit';
 
-const ImagePreviewScreen = ({route}) => {
+const ImagePreviewScreen = ({ route }) => {
 
     const { photo } = route.params;
     const navigation = useNavigation();
@@ -30,6 +28,13 @@ const ImagePreviewScreen = ({route}) => {
         navigation.navigate("Cameras");
     }
 
+    const goToEditScreen = () => {
+        navigation.navigate("Edit");
+    }
+
+    const goToSuggestioScreen = () => {
+        navigation.navigate("Suggestion");
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -44,22 +49,41 @@ const ImagePreviewScreen = ({route}) => {
             </View>
             <View>
                 <View style={styles.frame}>
-                    {/* <Image source={{ uri: 'https://reactjs.org/logo-og.png' }} style={styles.image} /> */}
                     <Image source={{ uri: photo.uri }} style={styles.image} />
 
                 </View>
-                    <View style={styles.middle}>
-                        <SvgXml xml={list} />
-                        <Text style={{ fontSize: 20, padding: 20, color: '#E00034' }}> Your Ingredients (6) </Text>
-                    </View>
+                <View style={styles.middle}>
+                    <SvgXml xml={list} />
+                    <Text style={{ fontSize: 20, padding: 20, color: '#E00034' }}> Your Ingredients (6) </Text>
+                </View>
 
             </View>
             <View style={styles.bottom}>
-                <TouchableOpacity style={{ borderWidth: 2, borderRadius: 50, flexDirection: 'row', padding: 10, borderColor: '#E00034', alignItems: 'center' }}>
+                <TouchableOpacity
+                    style={{
+                        borderWidth: 2,
+                        borderRadius: 50,
+                        flexDirection: 'row',
+                        padding: 10,
+                        borderColor: '#E00034',
+                        alignItems: 'center'
+                    }}
+                    onPress={goToEditScreen}>
                     <SvgXml xml={edit} />
                     <Text style={{ color: '#E00034' }}> Edit Result</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ borderWidth: 2, borderRadius: 50, flexDirection: 'row', padding: 10, borderColor: '#E00034', alignItems: 'center', backgroundColor: '#A80027' }}>
+                <TouchableOpacity
+                    style={{
+                        borderWidth: 2,
+                        borderRadius: 50,
+                        flexDirection: 'row',
+                        padding: 10,
+                        borderColor: '#E00034',
+                        alignItems: 'center',
+                        backgroundColor: '#A80027'
+                    }}
+                    onPress={goToSuggestioScreen}
+                >
                     <Text style={{ color: 'white' }}> Find Dishes </Text>
                     <SvgXml xml={verylarger} />
                 </TouchableOpacity>
@@ -73,16 +97,13 @@ export default ImagePreviewScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // justifyContent: 'center',
         justifyContent: 'space-between',
-        // alignItems: 'center',
     },
     top: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        // paddingTop: 30,
-        // paddingBottom: 40
+
     },
     frame: {
         height: 350,
@@ -96,7 +117,6 @@ const styles = StyleSheet.create({
     },
     middle: {
         flexDirection: 'row',
-        // justifyContent: 'space-between',
         alignItems: 'center',
         paddingTop: 30,
         paddingBottom: 90,
