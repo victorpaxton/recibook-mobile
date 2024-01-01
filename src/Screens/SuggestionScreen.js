@@ -30,6 +30,10 @@ export default function SuggestionScreen() {
         });
     }, []);
     const goToPreviousTab = () => {
+        navigation.goBack();
+    }
+
+    const goToCamera = () => {
         navigation.navigate("Cameras");
     }
 
@@ -41,8 +45,10 @@ export default function SuggestionScreen() {
                     <TouchableOpacity onPress={goToPreviousTab}>
                         <SvgXml xml={arrow_left_pink} />
                     </TouchableOpacity>
-                    <Text style={styles.headerText}>Search</Text>
-                    <SvgXml xml={CameraIcon} />
+                    <Text style={styles.headerText}>Recipes Suggestion</Text>
+                    <TouchableOpacity onPress={goToCamera}>
+                        <SvgXml xml={CameraIcon} />
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.filterContainer}>
                     <DropdownList placeholder={"Category"} data={dataList} />
@@ -50,9 +56,8 @@ export default function SuggestionScreen() {
                 </View>
                 <FlatList
                     data={DATA}
-
                     renderItem={({ index, item }) => (
-                        <ReciCard2 id={item.id} recipeName={item.recipeName} imgPath={item.imgPath}
+                        <ReciCard id={item.id} recipeName={item.recipeName} imgPath={item.imgPath}
                             cookingTime={item.cookingTime} category={item.category} style={{ marginRight: index % 2 !== 0 ? 0 : "4%" }} />
                     )}
                     ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
@@ -80,6 +85,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 18,
         paddingVertical: 14,
         alignItems: "center",
+        justifyContent: 'space-between',
+        flexDirection: 'row'
     },
     headerText: {
         fontSize: 16,
