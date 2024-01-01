@@ -8,6 +8,7 @@ import SearchScreen2 from "@/Screens/SearchScreen2";
 import MainNavigator from "./MainNavigation.js";
 import { getItem } from "@/Utils/asyncStorage.js";
 import RecipeDetail from "@/Screens/RecipeDetail";
+import IngredientDetail from "@/Screens/IngredientDetail";
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,11 @@ export default function AppNavigation() {
           name="Recipe1"
           options={{ headerShown: false }}
           component={RecipeDetail}
+        />
+        <Stack.Screen
+          name="Ingredient1"
+          options={{ headerShown: false }}
+          component={IngredientDetail}
         />
         {/* <Stack.Screen
             name="Home"
