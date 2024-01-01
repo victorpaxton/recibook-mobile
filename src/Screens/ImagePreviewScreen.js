@@ -13,8 +13,13 @@ import { captureImage } from '@/Assets/Icons/captureImage';
 import { list, verylarger } from '@/Assets/Icons/list';
 import { arrow_left_pink } from '@/Assets/Icons/arrow-left';
 import { edit } from '@/Assets/Icons/edit';
+import IngredientButton from '@/Components/IngredientButton';
+
+const ingredientNames = ['Almond', 'Almond', 'Almond', 'Almond', 'Almond', 'Almond', 'Almond', 'Almond', 'Almond', 'Almond', 'Almond', 'Almond'];
 
 const ImagePreviewScreen = ({ route }) => {
+
+    const [isShowIngredients, ShowIngredients] = useState(false);
 
     const { photo } = route.params;
     const navigation = useNavigation();
@@ -36,6 +41,10 @@ const ImagePreviewScreen = ({ route }) => {
         navigation.navigate("Suggestion");
     }
 
+    const toggleIngredients = () => {
+        ShowIngredients(!isShowIngredients);
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.top}>
@@ -53,11 +62,28 @@ const ImagePreviewScreen = ({ route }) => {
 
                 </View>
                 <View style={styles.middle}>
-                    <SvgXml xml={list} />
-                    <Text style={{ fontSize: 20, padding: 20, color: '#E00034' }}> Your Ingredients (6) </Text>
+                    <TouchableOpacity onPress={toggleIngredients} style={{borderRadius: 30}}>
+                        <SvgXml xml={list} />
+                    </TouchableOpacity>
+                    <Text style={{ fontSize: 20, padding: 20, color: '#E00034' }}> Your Ingredients ({ingredientNames.length}) </Text>
                 </View>
 
+                {
+                    (isShowIngredients) ?
+                        (<SafeAreaView style={styles.ingredients}>
+
+                            {ingredientNames.map((name, index) => (
+                                <IngredientButton key={index} name={name} />
+                            ))}
+                        </SafeAreaView>
+                        ) :
+                        (<View/>)
+                } 
+
+
             </View>
+
+
             <View style={styles.bottom}>
                 <TouchableOpacity
                     style={{
@@ -70,7 +96,7 @@ const ImagePreviewScreen = ({ route }) => {
                     }}
                     onPress={goToEditScreen}>
                     <SvgXml xml={edit} />
-                    <Text style={{ color: '#E00034' }}> Edit Result</Text>
+                    <Text style={{ color: '#E00034' }}> Edit result</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={{
@@ -84,7 +110,7 @@ const ImagePreviewScreen = ({ route }) => {
                     }}
                     onPress={goToSuggestioScreen}
                 >
-                    <Text style={{ color: 'white' }}> Find Dishes </Text>
+                    <Text style={{ color: 'white' }}> Find dishes </Text>
                     <SvgXml xml={verylarger} />
                 </TouchableOpacity>
             </View>
@@ -121,7 +147,14 @@ const styles = StyleSheet.create({
         paddingTop: 30,
         paddingBottom: 90,
         paddingHorizontal: 20,
-        marginTop: -20
+        marginTop: -20,
+        marginBottom: 20
+    },
+    ingredients: {
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        marginHorizontal: 20,
+        marginTop: -120
     },
     image: {
         width: '100%',
