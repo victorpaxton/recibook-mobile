@@ -1,15 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, TextInput, View, Keyboard, Button } from "react-native";
 import { Feather, Entypo } from "@expo/vector-icons";
 
-const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
+const SearchBar = ({handleSummit}) => {
+  const [clicked, setClicked] = useState(false);
+  const[searchPhrase, setSearchPhrase] = useState("");
   return (
     <View
-      style={
-        clicked
-          ? styles.searchBar__clicked
-          : styles.searchBar__unclicked
-      }
+      style={styles.searchBar}
     >
       {/* Input field */}
       <TextInput
@@ -18,22 +16,27 @@ const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
         value={searchPhrase}
         onChangeText={setSearchPhrase}
         onFocus={() => {
-          // setClicked(true);
+          setClicked(true);
         }}
+        onSubmitEditing={handleSummit}
       />
       {/* search Icon */}
-      <Feather
-        name="search"
-        size={12}
-        color="black"
-        style={{ marginLeft: 1 }}
-      />
+      {
+        !clicked && (<Feather
+          name="search"
+          size={18}
+          color="#595959"
+          style={{ marginLeft: 1 }}
+        />)
+      }
       {/* cross Icon, depending on whether the search bar is clicked or not */}
-      {/* {clicked && (
-          <Entypo name="cross" size={20} color="black" style={{ padding: 1 }} onPress={() => {
-            setSearchPhrase("")
-          }} />
-        )} */}
+      {clicked && (
+        <Entypo name="cross" size={18} color="#595959" style={{ padding: 1 }} onPress={() => {
+          Keyboard.dismiss();
+          setSearchPhrase("");
+          setClicked(false);
+        }} />
+      )}
     </View>
   );
 };
@@ -50,9 +53,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#D9D9D9",
     borderRadius: 16,
   },
-  searchBar__clicked: {
+  searchBar: {
     marginHorizontal: 14,
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
     height: 36,

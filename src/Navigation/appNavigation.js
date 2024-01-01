@@ -10,6 +10,9 @@ import { getItem } from "@/Utils/asyncStorage.js";
 import RecipeDetail from "@/Screens/RecipeDetail";
 import IngredientDetail from "@/Screens/IngredientDetail";
 
+import ImagePreviewScreen from "@/Screens/ImagePreviewScreen";
+import SuggestionScreen from "@/Screens/SuggestionScreen";
+import EditScreen from "@/Screens/EditScreen";
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigation() {
@@ -72,6 +75,21 @@ export default function AppNavigation() {
             options={{ headerShown: false }}
             component={HomeScreen}
           /> */}
+        <Stack.Screen
+          name="ImagePreview"
+          options={{ headerShown: false }}
+          component={ImagePreviewScreen}
+        />
+        <Stack.Screen
+          name="Edit"
+          options={{ headerShown: false }}
+          component={EditScreen}
+        />
+        <Stack.Screen
+          name="Suggestion"
+          options={{ headerShown: false }}
+          component={SuggestionScreen}
+        />
       </Stack.Navigator>
       {/* <MainNavigation></MainNavigation> */}
     </NavigationContainer>
