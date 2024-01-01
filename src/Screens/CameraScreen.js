@@ -11,7 +11,6 @@ import { square } from '@/Assets/Icons/square';
 import { xmark } from '@/Assets/Icons/xmark';
 import { arrow_left } from '@/Assets/Icons/arrow-left';
 
-
 let camera
 
 export default function CameraScreen() {
@@ -45,9 +44,12 @@ export default function CameraScreen() {
         const photo = await camera.takePictureAsync()
         console.log(photo)
         setPreviewVisible(true)
+        setStartCamera(false)
         setCapturedImage(photo)
     }
-    const __savePhoto = () => { }
+    const __savePhoto = () => {
+        navigation.navigate("ImagePreview");
+    }
     const __retakePicture = () => {
         setCapturedImage(null)
         setPreviewVisible(false)
@@ -70,8 +72,6 @@ export default function CameraScreen() {
             setCameraType("back")
         }
     }
-
-
 
     return (
         <View style={styles.container}>
@@ -132,7 +132,9 @@ export default function CameraScreen() {
                         style={{
                             alignItems: 'center'
                         }}
-                        onPress={__takePicture}
+                        // onPress={__takePicture}
+                        onPress={__savePhoto}
+
                     >
                         <SvgXml xml={captureImage} />
                     </TouchableOpacity>
@@ -142,7 +144,7 @@ export default function CameraScreen() {
                         style={{
                             alignItems: 'center',
                             marginRight: 10,
-                            justifyContent: 'center', 
+                            justifyContent: 'center',
                         }}
                     >
                         <SvgXml xml={reload} />
@@ -190,43 +192,43 @@ const CameraPreview = ({ photo, retakePicture, savePhoto }) => {
                     flex: 1
                 }}
             >
-                    <View
+                <View
+                    style={{
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        flex: 1
+                    }}
+                >
+                    <TouchableOpacity
+                        onPress={retakePicture}
                         style={{
-                            flexDirection: "column",
-                            justifyContent: "space-between",
+                            width: 50,
+                            height: 50,
+                            padding: 20,
+                            alignItems: "flex-start",
+                            borderRadius: 4,
                             flex: 1
                         }}
                     >
-                        <TouchableOpacity
-                            onPress={retakePicture}
-                            style={{
-                                width: 50,
-                                height: 50,
-                                padding: 20,
-                                alignItems: "flex-start",
-                                borderRadius: 4,
-                                flex: 1
-                            }}
-                        >
-                            <SvgXml xml={arrow_left} />
+                        <SvgXml xml={arrow_left} />
 
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={savePhoto}
-                            style={{
-                                width: 130,
-                                height: 130,
-                                marginLeft: 270,
-                                alignItems: "flex-end",
-                                justifyContent: 'flex-end',
-                                borderRadius: 4,
-                                flex: 1
-                            }}
-                        >
-                            <SvgXml xml={send} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={savePhoto}
+                        style={{
+                            width: 130,
+                            height: 130,
+                            marginLeft: 270,
+                            alignItems: "flex-end",
+                            justifyContent: 'flex-end',
+                            borderRadius: 4,
+                            flex: 1
+                        }}
+                    >
+                        <SvgXml xml={send} />
 
-                        </TouchableOpacity>
-                    </View>
+                    </TouchableOpacity>
+                </View>
             </ImageBackground>
         </View>
     )

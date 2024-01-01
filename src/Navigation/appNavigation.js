@@ -7,6 +7,7 @@ import OnboardingScreen from '../Screens/OnboardingScreen.js';
 import SearchScreen2 from '@/Screens/SearchScreen2';
 import MainNavigator from './MainNavigation.js';
 import { getItem } from '@/Utils/asyncStorage.js';
+import ImagePreviewScreen from '@/Screens/ImagePreviewScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +59,11 @@ export default function AppNavigation() {
             options={{ headerShown: false }}
             component={HomeScreen}
           /> */}
+          <Stack.Screen
+            name="ImagePreview"
+            options={{ headerShown: false }}
+            component={ImagePreviewScreen}
+          />
         </Stack.Navigator>
         {/* <MainNavigation></MainNavigation> */}
       </NavigationContainer>
