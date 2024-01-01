@@ -9,16 +9,16 @@ import {
     Dimensions
 } from 'react-native';
 import React, { useLayoutEffect, useState } from "react";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation} from '@react-navigation/native';
 import { SvgXml } from 'react-native-svg';
-import { captureImage, send } from '@/Assets/Icons/captureImage';
-import { reload } from '@/Assets/Icons/reload';
+import { captureImage} from '@/Assets/Icons/captureImage';
 import { list, verylarger } from '@/Assets/Icons/list';
 import { arrow_left_pink } from '@/Assets/Icons/arrow-left';
 import { edit } from '@/Assets/Icons/edit';
 
-const ImagePreviewScreen = ({ route }) => {
+const ImagePreviewScreen = ({route}) => {
 
+    const { photo } = route.params;
     const navigation = useNavigation();
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -29,6 +29,8 @@ const ImagePreviewScreen = ({ route }) => {
     const goToPreviousTab = () => {
         navigation.navigate("Cameras");
     }
+
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.top}>
@@ -42,7 +44,9 @@ const ImagePreviewScreen = ({ route }) => {
             </View>
             <View>
                 <View style={styles.frame}>
-                    <Image source={{ uri: 'https://reactjs.org/logo-og.png' }} style={styles.image} />
+                    {/* <Image source={{ uri: 'https://reactjs.org/logo-og.png' }} style={styles.image} /> */}
+                    <Image source={{ uri: photo.uri }} style={styles.image} />
+
                 </View>
                     <View style={styles.middle}>
                         <SvgXml xml={list} />
@@ -82,9 +86,9 @@ const styles = StyleSheet.create({
     },
     frame: {
         height: 350,
-        borderWidth: 2,
+        borderWidth: 3,
         borderColor: '#70001A',
-        borderRadius: 10,
+        borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 20,

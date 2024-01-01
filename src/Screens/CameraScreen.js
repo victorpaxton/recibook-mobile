@@ -47,8 +47,8 @@ export default function CameraScreen() {
         setStartCamera(false)
         setCapturedImage(photo)
     }
-    const __savePhoto = () => {
-        navigation.navigate("ImagePreview");
+    const __savePhoto = (image) => {
+        navigation.navigate("ImagePreview", {photo: capturedImage});
     }
     const __retakePicture = () => {
         setCapturedImage(null)
@@ -132,8 +132,8 @@ export default function CameraScreen() {
                         style={{
                             alignItems: 'center'
                         }}
-                        // onPress={__takePicture}
-                        onPress={__savePhoto}
+                        onPress={__takePicture}
+                        // onPress={__savePhoto}
 
                     >
                         <SvgXml xml={captureImage} />
