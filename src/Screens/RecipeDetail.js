@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -9,14 +9,14 @@ import {
   Image,
   Animated,
   ScrollView,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { SvgXml } from 'react-native-svg';
-import { ArrowLeft } from '@/Assets/Icons/arrow-left';
-import { getRecipeDetails } from '@/Hooks/recipeHooks';
-import { useStateContext } from '@/Context/StateContext';
-import { ActivityIndicator } from 'react-native';
-import { clock } from '@/Assets/Icons/Clock';
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { SvgXml } from "react-native-svg";
+import { ArrowLeft } from "@/Assets/Icons/arrow-left";
+import { getRecipeDetails } from "@/Hooks/recipeHooks";
+import { useStateContext } from "@/Context/StateContext";
+import { ActivityIndicator } from "react-native";
+import { clock } from "@/Assets/Icons/Clock";
 
 export default function RecipeDetail() {
   const scrollOffsetY = useRef(new Animated.Value(0)).current;
@@ -28,7 +28,7 @@ export default function RecipeDetail() {
   }, []);
   const IngredientDetail = async (e) => {
     e.preventDefault();
-    navigation.navigate('Ingredient1');
+    navigation.navigate("Ingredient1");
   };
 
   const { accessToken, activeRecipe, setActiveRecipeDetails } =
@@ -55,7 +55,11 @@ export default function RecipeDetail() {
           style={styles.frameParent}
         >
           {isRecipeDetailsLoading ? (
-            <ActivityIndicator size="large" color="#E00034" style={{}} />
+            <ActivityIndicator
+              size="large"
+              color="#E00034"
+              style={{ paddingTop: 300 }}
+            />
           ) : (
             <>
               <View style={styles.image}>
@@ -132,7 +136,7 @@ export default function RecipeDetail() {
                 <View style={styles.wrapperSpaceBlock}>
                   <Text style={styles.step}>Directions:</Text>
                 </View>
-                {recipe.data.direction.split('@').map((step, index) => {
+                {recipe.data.direction.split("@").map((step, index) => {
                   return (
                     <>
                       <View
@@ -158,40 +162,40 @@ export default function RecipeDetail() {
 }
 const styles = StyleSheet.create({
   recipeDetail: {
-    backgroundColor: '#fff',
-    paddingTop: '10%',
+    backgroundColor: "#fff",
+    paddingTop: "10%",
   },
   title: {
     fontSize: 16,
     lineHeight: 26,
-    fontWeight: '500',
-    textAlign: 'center',
-    color: '#e00034',
+    fontWeight: "500",
+    textAlign: "center",
+    color: "#e00034",
     flex: 1,
   },
   statusBar: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 18,
     paddingVertical: 14,
   },
-  image: { alignItems: 'center', paddingTop: 10 },
+  image: { alignItems: "center", paddingTop: 10 },
   imageIcon: {
     height: 250,
-    width: '90%',
+    width: "90%",
     borderRadius: 12,
   },
   nameRecipe: {
     fontSize: 20,
     lineHeight: 32,
-    textAlign: 'left',
-    color: '#e00034',
-    fontWeight: '700',
+    textAlign: "left",
+    color: "#e00034",
+    fontWeight: "700",
   },
   nameRecipeWrapper: {
-    shadowColor: 'rgba(0, 0, 0, 0.25)',
+    shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowOffset: {
       width: 0,
       height: 4,
@@ -203,33 +207,34 @@ const styles = StyleSheet.create({
   wrapperSpaceBlock: {
     paddingVertical: 10,
     paddingHorizontal: 15,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   frameParent: {
-    backgroundColor: '#ffebef',
+    backgroundColor: "#ffebef",
     borderTopWidth: 2,
-    borderColor: '#70001a',
-    borderStyle: 'solid',
-    width: '100%',
+    borderColor: "#70001a",
+    borderStyle: "solid",
+    width: "100%",
+    height: "100%",
   },
   step: {
     lineHeight: 22,
-    fontStyle: 'italic',
-    color: '#262626',
+    fontStyle: "italic",
+    color: "#262626",
     fontSize: 14,
-    textAlign: 'left',
-    fontWeight: '700',
+    textAlign: "left",
+    fontWeight: "700",
   },
   stepDetail: {
     lineHeight: 20,
     fontSize: 12,
-    color: '#262626',
-    textAlign: 'left',
+    color: "#262626",
+    textAlign: "left",
   },
   buttonContainer: {
     flex: 1,
     height: 35,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     marginTop: 40,
     width: 375,
     height: 35,
@@ -237,21 +242,21 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   button: {
-    backgroundColor: '#fff',
-    borderColor: '#70001a',
-    borderStyle: 'solid',
+    backgroundColor: "#fff",
+    borderColor: "#70001a",
+    borderStyle: "solid",
     borderRadius: 12,
     borderWidth: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
     height: 30,
     width: 100,
   },
   textButton: {
     fontSize: 14,
-    color: '#e00034',
-    textAlign: 'left',
+    color: "#e00034",
+    textAlign: "left",
   },
   caretDown: {
     fontSize: 12,
@@ -259,40 +264,40 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   borderContainer: {
-    borderColor: '#70001a',
-    borderStyle: 'solid',
+    borderColor: "#70001a",
+    borderStyle: "solid",
     borderRadius: 12,
     borderWidth: 2,
     margin: 15,
   },
   category: {
-    flexDirection: 'row',
-    alignContent: 'center',
+    flexDirection: "row",
+    alignContent: "center",
     marginBottom: 3,
     gap: 8,
   },
   categoryText: {
     fontSize: 16,
     lineHeight: 32,
-    textAlign: 'left',
-    color: '#e00034',
-    fontWeight: '300',
+    textAlign: "left",
+    color: "#e00034",
+    fontWeight: "300",
   },
   cookingTime: {
-    flexDirection: 'row',
-    alignContent: 'center',
+    flexDirection: "row",
+    alignContent: "center",
     marginBottom: 3,
   },
   cookingTimeText: {
     marginLeft: 4,
     fontSize: 16,
-    color: '#262626',
+    color: "#262626",
   },
   info: {
     paddingHorizontal: 15,
-    width: '100%',
-    flexDirection: 'row',
-    alignContent: 'center',
-    justifyContent: 'space-between',
+    width: "100%",
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "space-between",
   },
 });

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -9,12 +9,12 @@ import {
   Image,
   Animated,
   ScrollView,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { SvgXml } from 'react-native-svg';
-import { ArrowLeft } from '@/Assets/Icons/arrow-left';
-import { useStateContext } from '@/Context/StateContext';
-import { ActivityIndicator } from 'react-native';
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { SvgXml } from "react-native-svg";
+import { ArrowLeft } from "@/Assets/Icons/arrow-left";
+import { useStateContext } from "@/Context/StateContext";
+import { ActivityIndicator } from "react-native";
 
 export default function IngredientDetail() {
   const navigation = useNavigation();
@@ -25,7 +25,8 @@ export default function IngredientDetail() {
   }, []);
 
   const { activeRecipeDetails } = useStateContext();
-
+  console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+  console.log("ingredients", activeRecipeDetails.recipeIngredients);
   return (
     <>
       <SafeAreaView style={styles.recipeDetail}>
@@ -40,26 +41,29 @@ export default function IngredientDetail() {
           style={styles.frameParent}
         >
           {activeRecipeDetails.recipeIngredients.map((e) => {
-            <View style={styles.borderContainer}>
-              <View
-                style={[styles.nameRecipeWrapper, styles.wrapperSpaceBlock]}
-              >
-                <Text style={styles.nameRecipe}>
-                  {e.ingredient.ingredientName}
-                </Text>
+            console.log("idididididdidididdidid", e.ingredient.ingredientName);
+            return (
+              <View style={styles.borderContainer}>
+                <View
+                  style={[styles.nameRecipeWrapper, styles.wrapperSpaceBlock]}
+                >
+                  <Text style={styles.nameRecipe}>
+                    {e.ingredient.ingredientName}
+                  </Text>
+                </View>
+                <View style={styles.image}>
+                  <Image
+                    style={styles.imageIcon}
+                    source={{ uri: e.ingredient.image }}
+                  />
+                </View>
+                <View style={[styles.step1Wrapper, styles.wrapperSpaceBlock]}>
+                  <Text style={styles.stepDetail}>
+                    {e.amount} {e.unit} {e.ingredient.ingredientName}
+                  </Text>
+                </View>
               </View>
-              <View style={styles.image}>
-                <Image
-                  style={styles.imageIcon}
-                  source={{ uri: e.ingredient.image }}
-                />
-              </View>
-              <View style={[styles.step1Wrapper, styles.wrapperSpaceBlock]}>
-                <Text style={styles.stepDetail}>
-                  {e.amount} {e.unit} {e.ingredient.ingredientName}
-                </Text>
-              </View>
-            </View>;
+            );
           })}
         </ScrollView>
       </SafeAreaView>
@@ -68,47 +72,48 @@ export default function IngredientDetail() {
 }
 const styles = StyleSheet.create({
   recipeDetail: {
-    backgroundColor: '#fff',
-    paddingTop: '10%',
+    backgroundColor: "#fff",
+    paddingTop: "10%",
   },
   title: {
     fontSize: 16,
     lineHeight: 26,
-    fontWeight: '500',
-    textAlign: 'center',
-    color: '#e00034',
+    fontWeight: "500",
+    textAlign: "center",
+    color: "#e00034",
     flex: 1,
   },
   statusBar: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 18,
     paddingVertical: 14,
   },
   frameParent: {
-    backgroundColor: '#ffebef',
+    backgroundColor: "#ffebef",
     borderTopWidth: 2,
-    borderColor: '#70001a',
-    borderStyle: 'solid',
-    width: '100%',
+    borderColor: "#70001a",
+    borderStyle: "solid",
+    width: "100%",
   },
-  image: { alignItems: 'center', paddingTop: 10 },
+  image: { alignItems: "center", paddingTop: 10 },
   imageIcon: {
     height: 250,
-    width: '90%',
+    width: "90%",
     borderRadius: 12,
   },
   nameRecipe: {
     fontSize: 20,
     lineHeight: 32,
-    textAlign: 'left',
-    color: '#e00034',
-    fontWeight: '700',
+    textAlign: "left",
+    color: "#e00034",
+    fontWeight: "700",
+    textTransform: "capitalize",
   },
   nameRecipeWrapper: {
-    shadowColor: 'rgba(0, 0, 0, 0.25)',
+    shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowOffset: {
       width: 0,
       height: 4,
@@ -120,15 +125,15 @@ const styles = StyleSheet.create({
   wrapperSpaceBlock: {
     paddingVertical: 10,
     paddingHorizontal: 15,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   frameParent: {
-    backgroundColor: '#ffebef',
+    backgroundColor: "#ffebef",
     borderTopWidth: 2,
-    borderColor: '#70001a',
-    borderStyle: 'solid',
-    width: '100%',
-    height: '100%',
+    borderColor: "#70001a",
+    borderStyle: "solid",
+    width: "100%",
+    height: "100%",
   },
   borderContainer: {
     margin: 10,
