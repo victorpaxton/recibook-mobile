@@ -1,87 +1,115 @@
 // CustomTabBar.js
 
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import {
-    forkKnifeActive,
-    forkKnifeInactive,
-    soupInactive,
-    soupActive,
-    cakeInactive,
-    cakeActive,
-    breakfastInactive,
-    breakfastActive,
-    vegetationInactive,
-    vegetationActive,
-    mainActive,
-    mainInactive,
-} from '../Assets/Icons/Categories/index.js'
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
+
 import { SvgXml } from 'react-native-svg';
+import { ActivityIndicator } from 'react-native';
+
+import {
+  getRecipeCategories,
+  getRecipesByCategory,
+} from '@/Hooks/recipeHooks.js';
+
+import { useStateContext } from '@/Context/StateContext.js';
 
 const CustomTabBar = () => {
-    const [activeTab, setActiveTab] = useState(0);
+  const { accessToken, setActiveCategory } = useStateContext();
 
-    const handleTabPress = (index) => {
-        setActiveTab(index);
-        // Perform actions based on the selected tab, e.g., show/hide content
-    };
+  const { recipeCategories, isLoading, error, refetch } =
+    getRecipeCategories(accessToken);
 
-    return (
-        <View style={styles.menuCategoryContainer}>
-            <ScrollView style={{ height: '100%' }} horizontal={true} showsHorizontalScrollIndicator={false}>
-                <TouchableOpacity style={styles.categoryItem} onPress={() => handleTabPress(0)}>
-                    <View style={styles.categoryIcon}><SvgXml xml={activeTab === 0 ? forkKnifeActive : forkKnifeInactive} /></View>
-                    <View style={styles.categoryLabel}><Text style={[styles.categoryText, { color: activeTab === 0 ? '#E00034' : '#262626' }]}>All</Text></View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryItem} onPress={() => handleTabPress(1)}>
-                    <View style={styles.categoryIcon}><SvgXml xml={activeTab === 1 ? soupActive : soupInactive} /></View>
-                    <View style={styles.categoryLabel}><Text style={[styles.categoryText, { color: activeTab === 1 ? '#E00034' : '#262626' }]}>Soup</Text></View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryItem} onPress={() => handleTabPress(2)}>
-                    <View style={styles.categoryIcon}><SvgXml xml={activeTab === 2 ? cakeActive : cakeInactive} /></View>
-                    <View style={styles.categoryLabel}><Text style={[styles.categoryText, { color: activeTab === 2 ? '#E00034' : '#262626' }]}>Dessert</Text></View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryItem} onPress={() => handleTabPress(3)}>
-                    <View style={styles.categoryIcon}><SvgXml xml={activeTab === 3 ? breakfastActive : breakfastInactive} /></View>
-                    <View style={styles.categoryLabel}><Text style={[styles.categoryText, { color: activeTab === 3 ? '#E00034' : '#262626' }]}>Breakfast</Text></View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryItem} onPress={() => handleTabPress(4)}>
-                    <View style={styles.categoryIcon}><SvgXml xml={activeTab === 4 ? vegetationActive : vegetationInactive} /></View>
-                    <View style={styles.categoryLabel}><Text style={[styles.categoryText, { color: activeTab === 4 ? '#E00034' : '#262626' }]}>Vegetarian</Text></View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryItem} onPress={() => handleTabPress(5)}>
-                    <View style={styles.categoryIcon}><SvgXml xml={activeTab === 5 ? mainActive : mainInactive} /></View>
-                    <View style={styles.categoryLabel}><Text style={[styles.categoryText, { color: activeTab === 5 ? '#E00034' : '#262626' }]}>Main</Text></View>
-                </TouchableOpacity>
-            </ScrollView>
-        </View>
-    );
+  //   console.log(recipeCategories.data);
+
+  const [activeTab, setActiveTab] = useState(0);
+
+  const handleTabPress = (index, categoryId) => {
+    setActiveTab(index);
+    // Perform actions based on the selected tab, e.g., show/hide content
+    setActiveCategory(categoryId);
+  };
+
+  //   useEffect(() => {
+  //     const { recipes, isRecipeLoading, error } =
+  //       getRecipesByCategory(accessToken);
+  //   }, []);
+
+  return (
+    <View style={styles.menuCategoryContainer}>
+      <ScrollView
+        style={{ height: '100%' }}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+      >
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#E00034" style={{}} />
+        ) : (
+          recipeCategories.data.map((category, index) => {
+            return (
+              <TouchableOpacity
+                style={styles.categoryItem}
+                onPress={() => handleTabPress(index, category.id)}
+              >
+                <View style={styles.categoryIcon}>
+                  <SvgXml
+                    xml={
+                      activeTab === index ? category.svgActive : category.svg
+                    }
+                  />
+                </View>
+                <View style={styles.categoryLabel}>
+                  <Text
+                    style={[
+                      styles.categoryText,
+                      {
+                        color: activeTab === index ? '#E00034' : '#262626',
+                      },
+                      ,
+                    ]}
+                  >
+                    {category.recipeCategoryName}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            );
+          })
+        )}
+      </ScrollView>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-    menuCategoryContainer: {
-        height: 78,
-        padding: 16,
-    },
-    categoryItem: {
-        padding: 0,
-        width: 67,
-        height: '100%',
-        marginRight: 6,
-        justifyContent: 'space-between',
-    },
-    categoryIcon: {
-        height: 24,
-        alignItems: 'center',
-
-    },
-    categoryLabel: {
-        height: 18,
-        alignItems: 'center',
-    },
-    categoryText: {
-        fontSize: 12,
-    }
+  menuCategoryContainer: {
+    height: 78,
+    padding: 12,
+  },
+  categoryItem: {
+    padding: 0,
+    width: 70,
+    height: '100%',
+    marginRight: 6,
+    justifyContent: 'space-between',
+  },
+  categoryIcon: {
+    height: 24,
+    alignItems: 'center',
+  },
+  categoryLabel: {
+    alignItems: 'center',
+    height: 24,
+  },
+  categoryText: {
+    fontSize: 12,
+    textAlign: 'center',
+    height: 50,
+  },
 });
 
 export default CustomTabBar;

@@ -80,7 +80,7 @@ const LoginScreen = () => {
 
         {isRegisterLoading ? (
           <>
-            <ActivityIndicator size="large" color="black" style={{}} />
+            <ActivityIndicator size="large" color="#E00034" style={{}} />
             <Text
               style={{
                 color: '#A80027',

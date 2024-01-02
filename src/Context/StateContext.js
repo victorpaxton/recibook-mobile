@@ -8,6 +8,10 @@ export const StateContext = ({ children }) => {
 
   const [user, setUser] = useState({});
 
+  const [activeCategory, setActiveCategory] = useState(
+    '7a2951a9-8721-4513-924e-bad3dfa5867e'
+  );
+
   return (
     <Context.Provider
       value={{
@@ -17,6 +21,8 @@ export const StateContext = ({ children }) => {
         setRefreshToken,
         user,
         setUser,
+        activeCategory,
+        setActiveCategory,
       }}
     >
       {children}
