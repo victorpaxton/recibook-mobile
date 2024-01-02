@@ -17,7 +17,6 @@ import { useStateContext } from '@/Context/StateContext';
 import { registerUser } from '@/Hooks/authHooks';
 
 import { ActivityIndicator } from 'react-native';
-import SnackBar from 'react-native-snackbar-component';
 
 const { width } = Dimensions.get('window');
 
