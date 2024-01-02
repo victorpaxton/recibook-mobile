@@ -89,4 +89,43 @@ const getRecipesByCategory = (
   return { recipes, isRecipeLoading, recipeError, refetch };
 };
 
-export { getRecipeCategories, getRecipesByCategory };
+const getRecipeDetails = (accessToken, recipeId) => {
+  const [recipe, setRecipe] = useState(null);
+  const [isRecipeDetailsLoading, setRecipeDetailsLoading] = useState(true);
+  const [isRecipeDetailsError, setRecipeDetailsError] = useState(null);
+
+  const options = {
+    method: 'GET',
+    url: `https://recibook-be-production.up.railway.app/recibook-service/recipes/${recipeId}`,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
+  const fetchRecipeDetails = async () => {
+    setRecipeDetailsLoading(true);
+
+    try {
+      const response = await axios.request(options);
+      setRecipe(response.data); // Assuming the response contains the detailed recipe information
+      setRecipeDetailsLoading(false);
+    } catch (error) {
+      setRecipeDetailsError(error);
+      console.log(error);
+      setRecipeDetailsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecipeDetails();
+  }, [accessToken, recipeId]); // Fetch recipe details whenever the accessToken or recipeId changes
+
+  const refetch = () => {
+    setRecipeDetailsLoading(true);
+    fetchRecipeDetails();
+  };
+
+  return { recipe, isRecipeDetailsLoading, isRecipeDetailsError, refetch };
+};
+
+export { getRecipeCategories, getRecipesByCategory, getRecipeDetails };

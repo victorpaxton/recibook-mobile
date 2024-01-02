@@ -12,6 +12,9 @@ export const StateContext = ({ children }) => {
     '7a2951a9-8721-4513-924e-bad3dfa5867e'
   );
 
+  const [activeRecipe, setActiveRecipe] = useState('');
+  const [activeRecipeDetails, setActiveRecipeDetails] = useState({});
+
   return (
     <Context.Provider
       value={{
@@ -23,6 +26,10 @@ export const StateContext = ({ children }) => {
         setUser,
         activeCategory,
         setActiveCategory,
+        activeRecipe,
+        setActiveRecipe,
+        activeRecipeDetails,
+        setActiveRecipeDetails,
       }}
     >
       {children}

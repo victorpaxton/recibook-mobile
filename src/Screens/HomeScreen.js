@@ -61,7 +61,7 @@ export default function HomeScreen() {
           renderItem={({ index, item }) => (
             <ReciCard
               id={item.id}
-              reicpeName={item.recipeName}
+              recipeName={item.recipeName}
               imgPath={item.image}
               cookingTime={item.cookingTime}
               category={item.recipeCategory.recipeCategoryName}

@@ -4,17 +4,22 @@ import { SvgXml } from 'react-native-svg';
 import { clock } from '@/Assets/Icons/Clock';
 import HeartButton from './HeartButton.js';
 import { useNavigation } from '@react-navigation/native';
+import { useStateContext } from '@/Context/StateContext.js';
 export default ReciCard = (props) => {
   const navigation = useNavigation();
-  const recipeDetail = async (e) => {
-    e.preventDefault();
+
+  const { setActiveRecipe } = useStateContext();
+
+  const recipeDetail = (recipeId) => {
+    setActiveRecipe(recipeId);
     navigation.navigate('Recipe1');
   };
+
   return (
     <TouchableOpacity
       style={[styles.itemContainer, props.style]}
       key={props.id}
-      onPress={recipeDetail}
+      onPress={() => recipeDetail(props.id)}
     >
       <Image
         style={styles.recipeImage}
@@ -40,7 +45,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     height: 275,
     width: '48%',
-    marginBottom: 8,
+    marginBottom: 16,
   },
   recipeImage: {
     width: '100%',
