@@ -128,4 +128,51 @@ const getRecipeDetails = (accessToken, recipeId) => {
   return { recipe, isRecipeDetailsLoading, isRecipeDetailsError, refetch };
 };
 
-export { getRecipeCategories, getRecipesByCategory, getRecipeDetails };
+const searchRecipes = (accessToken) => {
+  const [recipes, setRecipes] = useState(null);
+  const [isRecipeLoading, setRecipeLoading] = useState(false);
+  const [recipeError, setError] = useState(null);
+
+  const search = async (keyword, pageNumber, pageSize) => {
+    setRecipeLoading(true);
+
+    try {
+      const options = {
+        method: 'GET',
+        url: `https://recibook-be-production.up.railway.app/recibook-service/recipes`,
+        params: {
+          keyword: keyword,
+          pageNumber: pageNumber,
+          pageSize: pageSize,
+          sortField: 'id',
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      const response = await axios.request(options);
+
+      setRecipes(response.data); // Assuming the response contains the recipes for the category
+      setRecipeLoading(false);
+    } catch (error) {
+      setError(error);
+      console.log(error);
+    } finally {
+      setRecipeLoading(false);
+    }
+  };
+
+  const refetch = () => {
+    setRecipeLoading(true);
+    search();
+  };
+
+  return { search, recipes, isRecipeLoading, recipeError, refetch };
+};
+
+export {
+  getRecipeCategories,
+  getRecipesByCategory,
+  getRecipeDetails,
+  searchRecipes,
+};
