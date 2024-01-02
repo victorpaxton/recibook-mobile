@@ -1,7 +1,13 @@
 import AppNavigation from './Navigation/appNavigation.js';
 
+import { StateContext } from './Context/StateContext.js';
+
 export default function App() {
-  return <AppNavigation />;
+  return (
+    <StateContext>
+      <AppNavigation />
+    </StateContext>
+  );
 }
 
 // import React from "react";

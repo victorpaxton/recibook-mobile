@@ -1,39 +1,62 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Animated, Image, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Animated,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import WelcomeBar from './WelcomeBar';
 import CustomTabBar from './CustomTabBar.js';
+import { useStateContext } from '@/Context/StateContext';
 const Max_Header_Height = 210;
 const Min_Header_Height = 112;
-const Scroll_Distance = Max_Header_Height - Min_Header_Height
+const Scroll_Distance = Max_Header_Height - Min_Header_Height;
 
-
-
-const DynamicHeader = ({animHeaderValue}) => {
-  const animatedHeaderHeight =  animHeaderValue.interpolate({
+const DynamicHeader = ({ animHeaderValue }) => {
+  const animatedHeaderHeight = animHeaderValue.interpolate({
     inputRange: [0, Scroll_Distance],
-    outputRange: [Max_Header_Height , Min_Header_Height],
-    extrapolate: 'clamp'
-  })
+    outputRange: [Max_Header_Height, Min_Header_Height],
+    extrapolate: 'clamp',
+  });
   const animateHeaderBackgroundColor = animHeaderValue.interpolate({
     inputRange: [0, Max_Header_Height - Min_Header_Height],
     outputRange: ['white', 'white'],
-    extrapolate: 'clamp'
-  })
-  return (
-    <Animated.View 
-        style={[
-          styles.container,
-          {
-            height: animatedHeaderHeight,
-            backgroundColor: animateHeaderBackgroundColor
-          }
+    extrapolate: 'clamp',
+  });
 
-        ]}
+  const { user } = useStateContext();
+  console.log(user);
+  return (
+    <Animated.View
+      style={[
+        styles.container,
+        {
+          height: animatedHeaderHeight,
+          backgroundColor: animateHeaderBackgroundColor,
+        },
+      ]}
+    >
+      <View style={styles.logoContainer}>
+        <Image
+          style={styles.appName}
+          source={require('../Assets/recibook.png')}
+        />
+      </View>
+      <WelcomeBar
+        logoUri={require('../Assets/avatar.jpg')}
+        userName={user.lastName}
+      ></WelcomeBar>
+      <View
+        style={{ height: 34, paddingHorizontal: 18, margin: 0, paddingTop: 12 }}
       >
-        <View style={styles.logoContainer}><Image style={styles.appName} source={require("../Assets/recibook.png")} /></View>
-        <WelcomeBar logoUri={require("../Assets/avatar.jpg")} userName={'Rose'}></WelcomeBar>
-        <View style={{height: 34, paddingHorizontal: 18, margin: 0, paddingTop: 12}}><Text style={{fontSize: 16, fontWeight: 700}}>Let’s prepare your meal</Text></View> 
-        <CustomTabBar/>
+        <Text style={{ fontSize: 16, fontWeight: 700 }}>
+          Let’s prepare your meal
+        </Text>
+      </View>
+      <CustomTabBar />
     </Animated.View>
   );
 };
@@ -47,12 +70,11 @@ const styles = StyleSheet.create({
     right: 0,
   },
   logoContainer: {
-    height:56,
+    height: 56,
     width: '100%',
     paddingTop: 5,
     margin: 0,
     alignItems: 'center',
   },
-  appName: {
-  },
+  appName: {},
 });

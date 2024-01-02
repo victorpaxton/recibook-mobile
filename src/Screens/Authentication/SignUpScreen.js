@@ -1,6 +1,6 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState, useEffect } from 'react';
 import { Dimensions, KeyboardAvoidingView, Platform } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
 
 import {
@@ -11,7 +11,13 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-} from "react-native";
+} from 'react-native';
+import { useStateContext } from '@/Context/StateContext';
+
+import { registerUser } from '@/Hooks/authHooks';
+
+import { ActivityIndicator } from 'react-native';
+import SnackBar from 'react-native-snackbar-component';
 
 const { width } = Dimensions.get('window');
 
@@ -24,14 +30,41 @@ const LoginScreen = () => {
     });
   }, []);
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const signUp = async e => {
+  const { accessToken, setAccessToken, setRefreshToken, setUser } =
+    useStateContext();
+
+  const {
+    registerUserAPI,
+    registerResponse,
+    isRegisterLoading,
+    registerError,
+    refetch,
+  } = registerUser();
+
+  const signUp = async (e) => {
     e.preventDefault();
-    navigation.navigate("Main");
+
+    await registerUserAPI(username, email, password);
   };
 
+  useEffect(() => {
+    if (registerResponse) {
+      console.log(registerResponse);
+      // console.log(registerResponse.data.tokens);
+
+      setAccessToken(registerResponse.data.tokens.access.token);
+      setRefreshToken(registerResponse.data.tokens.refresh.token);
+      setUser(registerResponse.data.user);
+
+      console.log(accessToken);
+
+      navigation.navigate('Main');
+    }
+  }, [registerResponse]);
 
   return (
     <KeyboardAvoidingView
@@ -46,6 +79,38 @@ const LoginScreen = () => {
           <Text style={styles.signUpText}>Register</Text>
         </View>
 
+        {isRegisterLoading ? (
+          <>
+            <ActivityIndicator size="large" color="black" style={{}} />
+            <Text
+              style={{
+                color: '#A80027',
+                textAlign: 'center',
+                paddingBottom: 20,
+                fontSize: 14,
+              }}
+            >
+              Please wait...
+            </Text>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {registerError ? (
+          <Text
+            style={{
+              color: '#A80027',
+              textAlign: 'center',
+              paddingBottom: 20,
+              fontSize: 16,
+            }}
+          >
+            Email already in use!
+          </Text>
+        ) : (
+          <></>
+        )}
 
         <View style={styles.inputView}>
           <TextInput
@@ -58,8 +123,7 @@ const LoginScreen = () => {
           <TextInput
             style={styles.textInput}
             placeholder="Email Address"
-            secureTextEntry={true}
-            onChangeText={(password) => setPassword(password)}
+            onChangeText={(email) => setEmail(email)}
           />
         </View>
         <View style={styles.inputView}>
@@ -81,10 +145,11 @@ const LoginScreen = () => {
         <View>
           <TouchableOpacity style={styles.signUpBtn} onPress={signUp}>
             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>
-            Let’s explore Recibook now !!
+              Let’s explore Recibook now !!
             </Text>
           </TouchableOpacity>
         </View>
+
         <View style={styles.lottie}>
           <Lottie
             source={require('../../Assets/animation/screen1.json')}
@@ -95,16 +160,16 @@ const LoginScreen = () => {
       </ScrollView>
     </KeyboardAvoidingView>
   );
-}
+};
 
 export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
     // alignItems: "center",
-  }, 
+  },
   scrollViewContent: {
     flexGrow: 1,
     padding: 0,
@@ -113,21 +178,21 @@ const styles = StyleSheet.create({
   },
   lottie: {
     marginTop: 0,
-    width: "100%",
-    height: width * 0.9
+    width: '100%',
+    height: width * 0.9,
   },
   signUpText: {
     fontSize: 24,
-    fontWeight: "400",
+    fontWeight: '400',
     height: 32,
-    marginBottom: 35,
+    marginBottom: 20,
     marginTop: 50,
   },
   inputView: {
-    backgroundColor: "#FFF",
+    backgroundColor: '#FFF',
     borderRadius: 15,
 
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -136,12 +201,12 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 3,
 
-    width: "70%",
+    width: '70%',
     height: 45,
     marginBottom: 13,
   },
   textInput: {
-    color: "#E00034",
+    color: '#E00034',
     height: 50,
     flex: 1,
     paddingLeft: 25,
@@ -166,16 +231,14 @@ const styles = StyleSheet.create({
   registerQuestion: {
     height: 30,
     marginBottom: 30,
-    fontStyle: 'italic'
-
+    fontStyle: 'italic',
   },
   registerText: {
     color: '#FF1A51',
     fontStyle: 'italic',
 
     textShadowColor: 'rgba(0, 0, 0, 0.25)', // color of the text shadow
-    textShadowOffset: { width: 0, height: 4}, // offset of the text shadow
+    textShadowOffset: { width: 0, height: 4 }, // offset of the text shadow
     textShadowRadius: 5, // radius of the text shadow
-    
-  }
+  },
 });
