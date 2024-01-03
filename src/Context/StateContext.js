@@ -1,19 +1,20 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from "react";
 
 const Context = createContext();
 
 export const StateContext = ({ children }) => {
-  const [accessToken, setAccessToken] = useState('');
-  const [refreshToken, setRefreshToken] = useState('');
+  const [accessToken, setAccessToken] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
 
   const [user, setUser] = useState({});
 
   const [activeCategory, setActiveCategory] = useState(
-    '7a2951a9-8721-4513-924e-bad3dfa5867e'
+    "7a2951a9-8721-4513-924e-bad3dfa5867e"
   );
 
-  const [activeRecipe, setActiveRecipe] = useState('');
+  const [activeRecipe, setActiveRecipe] = useState("");
   const [activeRecipeDetails, setActiveRecipeDetails] = useState({});
+  const [recognizedIngredients, setRecognizedIngredients] = useState([]);
 
   return (
     <Context.Provider
@@ -30,6 +31,8 @@ export const StateContext = ({ children }) => {
         setActiveRecipe,
         activeRecipeDetails,
         setActiveRecipeDetails,
+        recognizedIngredients,
+        setRecognizedIngredients,
       }}
     >
       {children}

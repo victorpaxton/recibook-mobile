@@ -35,8 +35,13 @@ const ImagePreviewScreen = ({ route }) => {
     photo
   );
 
+  const { setRecognizedIngredients } = useStateContext();
+
   useEffect(() => {
     console.log("******** " + JSON.stringify(result));
+    if (result) {
+      setRecognizedIngredients(result.data.ingredientList.map((e) => e.id));
+    }
   }, [result]);
 
   const goToPreviousTab = () => {

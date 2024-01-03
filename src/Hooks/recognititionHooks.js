@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 const useIngredientAnalysis = (accessToken, photo) => {
   const [result, setResult] = useState(null);
@@ -47,5 +48,53 @@ const useIngredientAnalysis = (accessToken, photo) => {
 
   return { result, isLoading, error };
 };
+// e lam rang truyen arrray trong js
+const getSuggestionRecipes = (accessToken, ingredientList) => {
+  const [recipe, setRecipe] = useState(null);
+  const [isRecipeSuggestionLoading, setRecipeSuggestionLoading] =
+    useState(true);
+  const [isRecipeSuggestionError, setRecipeSuggestionError] = useState(null);
 
-export { useIngredientAnalysis };
+  const options = {
+    method: "POST",
+    url: `https://recibook-be-production.up.railway.app/recibook-service/suggestion-recipes`,
+    data: {
+      ingredients: ingredientList,
+    },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
+  const fetchRecipeSuggestion = async () => {
+    setRecipeSuggestionLoading(true);
+
+    try {
+      const response = await axios.request(options);
+      setRecipe(response.data); // Assuming the response contains the detailed recipe information
+      setRecipeSuggestionLoading(false);
+    } catch (error) {
+      setRecipeSuggestionError(error);
+      console.log(error);
+      setRecipeSuggestionLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecipeSuggestion();
+  }, [accessToken, ingredientList]); // Fetch recipe Suggestion whenever the accessToken or recipeId changes
+
+  const refetch = () => {
+    setRecipeSuggestionLoading(true);
+    fetchRecipeSuggestion();
+  };
+
+  return {
+    recipe,
+    isRecipeSuggestionLoading,
+    isRecipeSuggestionError,
+    refetch,
+  };
+};
+
+export { useIngredientAnalysis, getSuggestionRecipes };

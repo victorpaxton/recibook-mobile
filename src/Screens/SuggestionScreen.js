@@ -5,8 +5,9 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  Animated,
 } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import DropdownList from "../Components/DropdownList";
@@ -14,7 +15,9 @@ import { DATA } from "../Utils/data";
 import { SvgXml } from "react-native-svg";
 import { arrow_left_pink } from "@/Assets/Icons/arrow-left";
 import { CameraIcon } from "@/Assets/Icons/camera";
-
+import { getSuggestionRecipes } from "@/Hooks/recognititionHooks";
+import { useStateContext } from "@/Context/StateContext";
+import { ActivityIndicator } from "react-native";
 const dataList = [
   { label: "Soup", value: "1" },
   { label: "Dessert", value: "2" },
@@ -23,6 +26,8 @@ const dataList = [
   { label: "Main", value: "5" },
 ];
 export default function SuggestionScreen() {
+  const scrollOffsetY = useRef(new Animated.Value(0)).current;
+
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -38,6 +43,14 @@ export default function SuggestionScreen() {
   };
 
   const [value, setValue] = useState(null);
+
+  const { accessToken } = useStateContext();
+
+  const { recognizedIngredients } = useStateContext();
+
+  const { recipe, isRecipeSuggestionLoading, isRecipeSuggestionError } =
+    getSuggestionRecipes(accessToken, recognizedIngredients);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.scrollViewContent}>
@@ -54,23 +67,67 @@ export default function SuggestionScreen() {
           <DropdownList placeholder={"Category"} data={dataList} />
           <DropdownList placeholder={"Cooking Time"} data={dataList} />
         </View>
-        <FlatList
-          data={DATA}
-          renderItem={({ index, item }) => (
-            <ReciCard
-              id={item.id}
-              recipeName={item.recipeName}
-              imgPath={item.imgPath}
-              cookingTime={item.cookingTime}
-              category={item.category}
-              style={{ marginRight: index % 2 !== 0 ? 0 : "4%" }}
-            />
-          )}
-          ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-          numColumns={2}
-          keyExtractor={(item, index) => index}
-          style={styles.mainView}
-        />
+
+        {isRecipeSuggestionLoading ? (
+          <View style={{ paddingTop: 12 }}>
+            <ActivityIndicator size="large" color="#E00034" style={{}} />
+            <Text
+              style={{
+                color: "#A80027",
+                textAlign: "center",
+                paddingBottom: 20,
+                fontSize: 14,
+              }}
+            >
+              Please wait...
+            </Text>
+          </View>
+        ) : recipe == null ? (
+          <Text
+            style={{
+              color: "#A80027",
+              textAlign: "center",
+              paddingBottom: 20,
+              fontSize: 14,
+            }}
+          >
+            <></>
+          </Text>
+        ) : recipe.data.length == 0 ? (
+          <Text
+            style={{
+              color: "#A80027",
+              textAlign: "center",
+              paddingBottom: 20,
+              paddingTop: 20,
+              fontSize: 14,
+            }}
+          >
+            No recipe found!
+          </Text>
+        ) : (
+          <FlatList
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
+              { useNativeDriver: false }
+            )}
+            data={recipe.data}
+            renderItem={({ index, item }) => (
+              <ReciCard
+                id={item.id}
+                recipeName={item.recipeName}
+                imgPath={item.image}
+                cookingTime={item.cookingTime}
+                category={item.recipeCategory.recipeCategoryName}
+                style={{ marginRight: index % 2 !== 0 ? 0 : "4%" }}
+              />
+            )}
+            ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+            numColumns={2}
+            keyExtractor={(item, index) => index}
+            style={styles.mainView}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
