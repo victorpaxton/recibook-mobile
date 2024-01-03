@@ -25,8 +25,6 @@ export default function IngredientDetail() {
   }, []);
 
   const { activeRecipeDetails } = useStateContext();
-  console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-  console.log("ingredients", activeRecipeDetails.recipeIngredients);
   return (
     <>
       <SafeAreaView style={styles.recipeDetail}>
